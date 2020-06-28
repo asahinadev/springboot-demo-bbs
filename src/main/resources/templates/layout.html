@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+
+<meta charset="UTF-8">
+
+<th:block th:fragment="head">
+
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/common.css}" />
+
+	<script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/assets/jquery/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/common.js}"></script>
+
+</th:block>
+
+</head>
+
+<body class="h-100">
+
+	<!-- layout::header(title, active) -->
+	<header th:fragment="header(title, active)">
+
+		<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+			<div class="container-fluid">
+
+				<a class="navbar-brand" href="#" th:text="${title}">レイアウト</a>
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarsNav">
+					<ul class="navbar-nav mr-auto mb-2 mb-sm-0">
+						<li class="nav-item " th:classappend="${active == 'home' ? 'active' : ''}"><a class="nav-link" href="#" th:href="@{/}">HOME</a></li>
+						<th:block sec:authorize="isAuthenticated()">
+							<!-- ログイン必須のリンク -->
+							<li class="nav-item" th:classappend="${active == 'users' ? 'active' : ''}"><a class="nav-link" href="#" th:href="@{/users}">USER</a></li>
+						</th:block>
+					</ul>
+					<th:block sec:authorize="!isAuthenticated()">
+						<form th:action="@{/login}" method="get">
+							<button class="btn btn-outline-info m-1">LOGIN</button>
+						</form>
+						<form th:action="@{/signup}" method="get">
+							<button class="btn btn-outline-info m-1">SIGNUP</button>
+						</form>
+					</th:block>
+					<th:block sec:authorize="isAuthenticated()">
+						<form th:action="@{/llogout}" method="get">
+							<button class="btn btn-outline-info m-1">LOGOUT</button>
+						</form>
+					</th:block>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+
+	<!-- layout::invalid_feedback(errors) -->
+	<th:block th:fragment="invalid_feedback(errors)">
+		<div class="invalid-feedback" th:each="err,st : ${#lists.sort(errors)}" th:text="${err}" th:if="${st.index == 0}">エラーメッセージが出力されます</div>
+	</th:block>
+
+	<!-- layout::alert_success(message) -->
+	<div class="alert alert-success alert-dismissible fade show" role="alert" th:fragment="alert_success(message)" th:if="${message}">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		[[${message}]]
+	</div>
+
+	<!-- layout::alert_info(message) -->
+	<div class="alert alert-info alert-dismissible fade show" role="alert" th:fragment="alert_info(message)" th:if="${message}">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		[[${message}]]
+	</div>
+
+	<!-- layout::alert_warning(message) -->
+	<div class="alert alert-warning alert-dismissible fade show" role="alert" th:fragment="alert_warning(message)" th:if="${message}">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		[[${message}]]
+	</div>
+
+	<!-- layout::alert_danger(message) -->
+	<div class="alert alert-danger alert-dismissible fade show" role="alert" th:fragment="alert_danger(message)" th:if="${message}">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		[[${message}]]
+	</div>
+</body>
+
+</html>
