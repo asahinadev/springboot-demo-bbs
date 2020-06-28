@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 import com.fasterxml.jackson.databind.util.StdConverter;
 
 /**
- * Json �ϊ��i"" => null)
+ * JSON 文字列の ブランクをヌルに変換する.
  */
 public class BlankNullConverter extends StdConverter<String, String> {
 

@@ -1,33 +1,27 @@
 package jp.mirageworld.spring.bbs.controller;
 
-import static org.springframework.security.web.WebAttributes.AUTHENTICATION_EXCEPTION;
-
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.CredentialsExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import jp.mirageworld.spring.bbs.form.LoginForm;
 
+/**
+ * ãƒ­ã‚°ã‚¤ãƒ³ç”»é¢.
+ */
 @Controller()
 @RequestMapping("/login")
 public class LoginController {
 
 	/**
-	 * login ƒy[ƒW—pi³íj.
+	 * GET /login.
 	 * 
-	 * @param request ƒŠƒNƒGƒXƒgî•ñ
-	 * @param form    “ü—ÍƒtƒH[ƒ€
-	 * @return ‰æ–Ê•\¦—pƒ[ƒhiƒeƒ“ƒvƒŒ[ƒgAƒŠƒ_ƒCƒŒƒNƒgj.
+	 * @param form  {@link LoginForm}
+	 * @param model {@link Model}
+	 * 
+	 * @return PAGE.
 	 */
 	@GetMapping("")
 	public String login(
@@ -37,59 +31,36 @@ public class LoginController {
 	}
 
 	/**
-	 * login ƒy[ƒW—pi“o˜^Š®—¹j.
+	 * GET /login?regist.
 	 * 
-	 * @param request ƒŠƒNƒGƒXƒgî•ñ
-	 * @param form    “ü—ÍƒtƒH[ƒ€
-	 * @return ‰æ–Ê•\¦—pƒ[ƒhiƒeƒ“ƒvƒŒ[ƒgAƒŠƒ_ƒCƒŒƒNƒgj.
+	 * @param form  {@link LoginForm}
+	 * @param model {@link Model}
+	 * 
+	 * @return PAGE.
 	 */
 	@GetMapping(params = "regist")
-	public String login(
+	public String loginByRegist(
 			@ModelAttribute("form") LoginForm form,
-			@RequestParam(name = "regist", required = false) String regist,
 			Model model) {
-		model.addAttribute("message", "ƒAƒJƒEƒ“ƒg‚Ì“o˜^‚ªŠ®—¹‚µ‚Ü‚µ‚½B");
+
+		model.addAttribute("message", "ç™»éŒ²ãŒæ­£å¸¸ã«å®Œäº†ã—ã¾ã—ãŸã€‚");
 		return "login";
 	}
 
 	/**
-	 * login ƒy[ƒW—piˆÙíj.
+	 * GET /login?error.
 	 * 
-	 * @param request   ƒŠƒNƒGƒXƒgî•ñ
-	 * @param form      “ü—ÍƒtƒH[ƒ€
-	 * @param exception ”FØƒGƒ‰[
-	 * @return ‰æ–Ê•\¦—pƒ[ƒhiƒeƒ“ƒvƒŒ[ƒgAƒŠƒ_ƒCƒŒƒNƒgj.
+	 * @param form  {@link LoginForm}
+	 * @param model {@link Model}
+	 * 
+	 * @return PAGE.
 	 */
 	@GetMapping(params = "error")
-	public String login(
+	public String loginByError(
 			@ModelAttribute("form") LoginForm form,
-			@SessionAttribute(
-					name = AUTHENTICATION_EXCEPTION,
-					required = false //
-			) Exception exception,
-			@RequestParam(name = "error", required = false) String error,
 			Model model) {
 
-		if (exception == null) {
-			model.addAttribute("message", "ƒAƒJƒEƒ“ƒg‚Ü‚½‚ÍƒpƒXƒ[ƒh‚ªˆê’v‚µ‚Ü‚¹‚ñ‚Å‚µ‚½");
-		} else {
-			// WebFlux ‚Ìê‡‚±‚Ì”»’è‚Í‚Ç‚¤‚·‚é‚Ì‚©H
-			if (exception instanceof DisabledException) {
-				model.addAttribute("message", "ƒAƒJƒEƒ“ƒg‚ª–³Œø‚Å‚·");
-			} else if (exception instanceof LockedException) {
-				model.addAttribute("message", "ƒAƒJƒEƒ“ƒg‚ª“€Œ‹’†‚Å‚·");
-			} else if (exception instanceof AccountExpiredException) {
-				model.addAttribute("message", "ƒAƒJƒEƒ“ƒg‚Ì—LŒøŠúŒÀ‚ªØ‚ê‚Ä‚¢‚Ü‚·");
-			} else if (exception instanceof CredentialsExpiredException) {
-				model.addAttribute("message", "ƒpƒXƒ[ƒh‚Ì—LŒøŠúŒÀ‚ªØ‚ê‚Ä‚¢‚Ü‚·");
-			} else if (exception instanceof BadCredentialsException) {
-				model.addAttribute("message", "ƒAƒJƒEƒ“ƒg‚Ü‚½‚ÍƒpƒXƒ[ƒh‚ªˆê’v‚µ‚Ü‚¹‚ñ‚Å‚µ‚½");
-			} else if (exception instanceof UsernameNotFoundException) {
-				model.addAttribute("message", "ƒAƒJƒEƒ“ƒg‚Ü‚½‚ÍƒpƒXƒ[ƒh‚ªˆê’v‚µ‚Ü‚¹‚ñ‚Å‚µ‚½");
-			} else {
-				model.addAttribute("message", exception.getMessage());
-			}
-		}
+		model.addAttribute("message", "ãƒ­ã‚°ã‚¤ãƒ³ã«å¤±æ•—ã—ã¾ã—ãŸã€‚");
 		return "login";
 	}
 }

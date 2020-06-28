@@ -23,56 +23,58 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * ã‚¢ã‚«ã‚¦ãƒ³ãƒˆä½œæˆ.
+ */
 @Slf4j
 @Controller
 @RequestMapping("/signup")
 public class SignupController {
 
 	@Autowired
-	protected UserService service;
+	UserService service;
 
 	/**
-	 * create ƒy[ƒW—p (GET).
+	 * GET /signup.
 	 * 
-	 * @param request ƒŠƒNƒGƒXƒgî•ñ.
-	 * @param form    “ü—ÍƒtƒH[ƒ€.
-	 * @return ‰æ–Ê•\¦—pƒ[ƒhiƒeƒ“ƒvƒŒ[ƒgAƒŠƒ_ƒCƒŒƒNƒgj.
+	 * @param form {@link UserForm}
+	 * 
+	 * @return PAGE.
 	 */
 	@GetMapping
-	public String create(@ModelAttribute("form") UserForm form) {
+	public String get(@ModelAttribute("form") UserForm form) {
 
-		log.debug("form{} : {}", form);
+		log.debug("åˆæœŸçŠ¶æ…‹ : {}", form);
 		return "signup";
 	}
 
 	/**
-	 * create ƒy[ƒW—p (POST).
+	 * POST /signup (status=200).
 	 * 
-	 * @param request ƒŠƒNƒGƒXƒgî•ñ.
-	 * @param form    “ü—ÍƒtƒH[ƒ€.
-	 * @param result  ƒoƒŠƒf[ƒVƒ‡ƒ“Œ‹‰Ê
-	 * @return ‰æ–Ê•\¦—pƒ[ƒhiƒeƒ“ƒvƒŒ[ƒgAƒŠƒ_ƒCƒŒƒNƒgj.
+	 * @param form {@link UserForm}
+	 * 
+	 * @return PAGE.
 	 */
 	@ResponseBody
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Mono<Users> createPost(@Validated @RequestBody UserForm form) {
+	public Mono<Users> post(@Validated @RequestBody UserForm form) {
 
-		log.debug("form{} : {}", form);
+		log.debug("ç™»éŒ²å¯¾è±¡ : {}", form);
 		return service.insert(form);
 	}
 
 	/**
-	 * “ü—ÍƒGƒ‰[.
+	 * POST /signup (status=400).
 	 * 
 	 * @param exception {@link WebExchangeBindException}
-	 * @return ƒGƒ‰[î•ñ.
+	 * 
+	 * @return list as {@link ObjectError}
 	 */
-	@ResponseBody
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(WebExchangeBindException.class)
 	public Flux<ObjectError> exceptionHandler(WebExchangeBindException exception) {
 
-		log.debug("ƒGƒ‰[Œ”F{}", exception.getErrorCount());
+		log.debug("ã‚¨ãƒ©ãƒ¼ä»¶æ•° {}", exception.getErrorCount());
 
 		return Flux.fromIterable(exception.getAllErrors());
 	}

@@ -9,51 +9,71 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * ãƒ¦ãƒ¼ã‚¶ãƒ¼æƒ…å ±
+ * 
+ * @author alice
+ *
+ */
 @SuppressWarnings("serial")
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @Document("users")
 public class Users
 		implements UserDetails {
 
+	public Users() {
+		authorities = Arrays.asList(Roles.ROLE_USER);
+		accountNonExpired = true;
+		accountNonLocked = true;
+		credentialsNonExpired = true;
+		enabled = true;
+	}
+
+	/**
+	 * ID.
+	 */
 	String id;
 
+	/**
+	 * ã‚¢ã‚«ã‚¦ãƒ³ãƒˆ.
+	 */
 	String username;
 
+	/**
+	 * ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ï¼ˆã‚¢ã‚«ã‚¦ãƒ³ãƒˆä»£æ›¿ï¼‰.
+	 */
 	String email;
 
+	/**
+	 * ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰.
+	 */
 	String password;
 
-	@Override
-	public List<Roles> getAuthorities() {
-		return Arrays.asList(Roles.ROLE_USER);
-	}
+	/**
+	 * æ¨©é™.
+	 */
+	final List<Roles> authorities;
 
-	@Override
-	public boolean isAccountNonExpired() {
-		// ƒAƒJƒEƒ“ƒg‚Ì—LŒøŠúŒÀi–³§ŒÀj
-		return true;
-	}
+	/**
+	 * ã‚¢ã‚«ã‚¦ãƒ³ãƒˆæœ‰åŠ¹æœŸé–“å†….
+	 */
+	final boolean accountNonExpired;
 
-	@Override
-	public boolean isAccountNonLocked() {
-		// ƒAƒJƒEƒ“ƒg‚ÌƒƒbƒNi‚µ‚È‚¢j
-		return true;
-	}
+	/**
+	 * ã‚¢ã‚«ã‚¦ãƒ³ãƒˆã‚¢ãƒ³ãƒ­ãƒƒã‚¯çŠ¶æ…‹.
+	 */
+	final boolean accountNonLocked;
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// ƒpƒXƒ[ƒh‚Ì—LŒøŠúŒÀi–³§ŒÀj
-		return true;
-	}
+	/**
+	 * ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰æœ‰åŠ¹æœŸé–“å†….
+	 */
+	final boolean credentialsNonExpired;
 
-	@Override
-	public boolean isEnabled() {
-		// ƒAƒJƒEƒ“ƒg‚Ì—LŒø”»’èií‚É—LŒøj
-		return true;
-	}
+	/**
+	 * ã‚¢ã‚«ã‚¦ãƒ³ãƒˆæœ‰åŠ¹çŠ¶æ…‹.
+	 */
+	final boolean enabled;
 }

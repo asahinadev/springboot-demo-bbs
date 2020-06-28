@@ -42,3 +42,12 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+tasks.eclipse.doFirst {
+	delete ".settings/org.eclipse.core.resources.prefs"
+    File buildship_prefs = file(".settings/org.eclipse.core.resources.prefs")
+    buildship_prefs.append('''
+		eclipse.preferences.version=1
+		encoding/<project>=UTF-8
+    '''. stripIndent())
+}

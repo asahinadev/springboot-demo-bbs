@@ -7,18 +7,33 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+/**
+ * セキュリティ設定.
+ */
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
+	/**
+	 * [bean] パスワードエンコーダー.
+	 * 
+	 * @return {@link PasswordEncoder}
+	 */
 	@Bean
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * [bean] セキュリティ設定.
+	 * 
+	 * @param http {@link ServerHttpSecurity}
+	 * @return {@link SecurityWebFilterChain}
+	 * @throws Exception 設定時エラー
+	 */
 	@Bean
 	public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
 		return http
-				// �F�؉�
+				// 認証関連
 				.authorizeExchange()
 				.pathMatchers("/abouts**").permitAll()
 				.pathMatchers("/policy**").permitAll()
@@ -29,32 +44,33 @@ public class SecurityConfig {
 				.anyExchange().authenticated()
 				.and()
 
-				// �������[�U�[
+				// 匿名ユーザー（ログイン画面へのリダイレクトがされないため無効化
 				// .anonymous()
 				// .and()
 
-				// BASIC �F��
+				// BASIC 認証設定（基本無効）
 				.httpBasic()
 				.disable()
 
-				// FORM �F��
+				// FORM 認証設定（基本有効）
 				.formLogin()
 				.loginPage("/login")
 				.and()
 
-				// ���O�A�E�g
+				// ログアウト
 				.logout()
 				.logoutUrl("/logout")
 				.and()
 
-				// Cross-Origin Resource Sharing
+				// CORS（無効）
 				.cors()
 				.disable()
 
-				// Cross Site Request Forgeries
+				// CSRF（無効）
 				.csrf()
 				.disable()
 
+				// 確定
 				.build();
 	}
 }

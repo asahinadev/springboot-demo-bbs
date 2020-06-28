@@ -21,12 +21,15 @@ import javax.validation.constraints.Pattern.Flag;
 
 import org.hibernate.validator.constraints.Length;
 
+/**
+ * パスワード用
+ */
 @Documented
 @Constraint(validatedBy = {})
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Repeatable(Password.List.class)
-//��{�ݒ�
+//��{�ݒ�
 @Pattern(regexp = "^[\\p{ASCII}]+$")
 @Length(min = 8, max = 32)
 public @interface Password {

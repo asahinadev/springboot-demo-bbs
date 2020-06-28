@@ -17,6 +17,7 @@ spring:
       password: password
       
   thymeleaf:    cache: false
+    encoding: UTF-8
     
 logging:  level:
     jp.mirageworld: DEBUG
