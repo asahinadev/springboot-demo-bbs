@@ -1,0 +1,18 @@
+version: "3"
+
+
+services: 
+    mongo:
+        image: bitnami/mongodb:4.2
+        ports:
+            - 27017:27017
+        environment: 
+            MONGODB_ADVERTISED_HOSTNAME: localhost
+            MONGODB_PORT_NUMBER: 27017
+            MONGODB_ROOT_PASSWORD: password
+#           MONGODB_REPLICA_SET_MODE: primary
+#           MONGODB_REPLICA_SET_NAME: replicaset
+#           MONGODB_PRIMARY_HOST: null
+#           MONGODB_PRIMARY_PORT_NUMBER: null
+#           MONGODB_REPLICA_SET_KEY: null
+#           MONGODB_PRIMARY_ROOT_PASSWORD: null
