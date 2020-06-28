@@ -10,6 +10,9 @@ services:
             MONGODB_ADVERTISED_HOSTNAME: localhost
             MONGODB_PORT_NUMBER: 27017
             MONGODB_ROOT_PASSWORD: password
+            MONGODB_DATABASE: bbs
+            MONGODB_USERNAME: springboot
+            MONGODB_PASSWORD: springboot
 #           MONGODB_REPLICA_SET_MODE: primary
 #           MONGODB_REPLICA_SET_NAME: replicaset
 #           MONGODB_PRIMARY_HOST: null

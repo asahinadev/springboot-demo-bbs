@@ -1,0 +1,22 @@
+# SERVER_PORT
+server:
+  port: 9000
+
+spring:
+  data:    mongodb:
+# SPRING: SPRING_DATA_MONGODB_HOST      host: localhost
+# SPRING: SPRING_DATA_MONGODB_PORT
+      port: 27017
+# SPRING: SPRING_DATA_MONGODB_DATABASE
+      database: bbs
+# SPRING: SPRING_DATA_MONGODB_USERNAME
+      username: springboot
+# SPRING: SPRING_DATA_MONGODB_PASSWORD
+      password: springboot
+  security:    user:      name: user
+      password: password
+      
+  thymeleaf:    cache: false
+    
+logging:  level:
+    jp.mirageworld: DEBUG
