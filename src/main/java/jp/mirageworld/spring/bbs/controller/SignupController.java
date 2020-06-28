@@ -53,7 +53,7 @@ public class SignupController {
 	 * 
 	 * @param form {@link UserForm}
 	 * 
-	 * @return PAGE.
+	 * @return {@link Users}.
 	 */
 	@ResponseBody
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
