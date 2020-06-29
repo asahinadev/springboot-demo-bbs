@@ -1,7 +1,15 @@
 $(function() {
-	var modal1 = new bootstrap.Modal(document.getElementById('modal1'), {
+
+	var confirmeEl = document.getElementById('confirme');
+	var confirme = new bootstrap.Modal(confirmeEl, {
 		keyboard : false
 	});
+
+	var alertEl = document.getElementById('alert');
+	var alert = new bootstrap.Modal(alertEl, {
+		keyboard : false
+	});
+	console.log(alert);
 
 	$("#btn1").on("click", function() {
 		form = $("#form1");
@@ -21,16 +29,18 @@ $(function() {
 			$("#form1 .form-control:not(.is-invalid)").addClass("is-valid");
 
 			// ダイアログ
-			$("#modal1").find(".modal-body > p").text("正常に終了しました。");
-			$("#modal1").on("hide.bs.modal", function() {
-				location.href = "login?regist"
-			});
-			modal1.show()
+			$("#alert .modal-body > p").text("正常に終了しました。");
+			alertEl.addEventListener('hidden.bs.modal', function(e) {
+				location.href = "/login";
+			})
+			alert.show()
 
 		}, function(data, type, status) {
+
 			// ダイアログ
-			$("#modal1").find(".modal-body > p").text("エラーがあります。確認してください。");
-			modal1.show()
+			$("#alert .modal-body > p").text("エラーがあります。確認してください。");
+			alert.show()
+
 		});
 		return false;
 	})
