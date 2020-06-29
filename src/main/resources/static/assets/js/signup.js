@@ -9,7 +9,6 @@ $(function() {
 	var alert = new bootstrap.Modal(alertEl, {
 		keyboard : false
 	});
-	console.log(alert);
 
 	$("#btn1").on("click", function() {
 		form = $("#form1");
