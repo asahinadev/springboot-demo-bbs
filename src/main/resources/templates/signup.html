@@ -23,7 +23,7 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="col-md-8" layout:fragment="contents">
+			<div class="col-md-12" layout:fragment="contents">
 				<div class="card mx-auto" id="form-card">
 					<div class="card-body">
 						<form novalidate th:object="${form}" method="POST" th:action="@{/signup}" id="form1" class="was-validated">
@@ -57,7 +57,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4" layout:fragment="sidenavi" th:remove="tag"></div>
+			<div class="hide" layout:fragment="sidenavi" th:remove="tag"></div>
 
 		</div>
 

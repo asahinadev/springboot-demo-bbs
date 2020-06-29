@@ -22,7 +22,7 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="col-md-8" layout:fragment="contents">
+			<div class="col-md-12" layout:fragment="contents">
 				<div class="card mx-auto" id="form-card">
 					<div class="card-body">
 						<form novalidate th:object="${form}" method="POST" th:action="@{/login}">
@@ -38,13 +38,14 @@
 								<!--  -->
 								<input class="form-control" th:field="*{password}" th:errorclass="is-invalid">
 							</div>
-
+<!-- 設定方法 
 							<div class="mb-3">
 								<div class="custom-control custom-switch">
 									<input type="checkbox" class="custom-control-input" id="remember-me" name="remember-me"> <label class="custom-control-label"
 										for="remember-me">ログイン状態を維持する</label>
 								</div>
 							</div>
+ -->
 
 							<div class="mb-3">
 								<input type="submit" value="Login" name="submit" class="btn btn-block btn-primary">
@@ -54,7 +55,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4" layout:fragment="sidenavi" th:remove="tag"></div>
+			<div class="hide" layout:fragment="sidenavi" th:remove="tag"></div>
 
 		</div>
 
