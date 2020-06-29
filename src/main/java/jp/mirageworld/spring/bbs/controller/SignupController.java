@@ -31,6 +31,11 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/signup")
 public class SignupController {
 
+	@ModelAttribute("title")
+	public String getTitle() {
+		return "SIGNUP";
+	}
+
 	@Autowired
 	UserService service;
 

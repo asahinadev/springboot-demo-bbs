@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html 
+	class="h-100" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
 
 <head>
 
 <meta charset="UTF-8">
 
-<th:block th:fragment="head">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" href="../static/assets/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/common.css}" href="../static/assets/css/common.css" />
 
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/common.css}" />
-
-	<script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
-	<script th:src="@{/assets/jquery/jquery.min.js}"></script>
-	<script th:src="@{/assets/js/common.js}"></script>
-
-</th:block>
+<script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/jquery/jquery.min.js}"></script>
+<script th:src="@{/assets/js/common.js}"></script>
 
 </head>
 
 <body class="h-100">
 
-	<!-- layout::header(title, active) -->
-	<header th:fragment="header(title, active)">
+	<header>
 
 		<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
 			<div class="container-fluid">
@@ -34,67 +34,87 @@
 
 				<div class="collapse navbar-collapse" id="navbarsNav">
 					<ul class="navbar-nav mr-auto mb-2 mb-sm-0">
-						<li class="nav-item " th:classappend="${active == 'home' ? 'active' : ''}"><a class="nav-link" href="#" th:href="@{/}">HOME</a></li>
-						<th:block sec:authorize="isAuthenticated()">
-							<!-- ログイン必須のリンク -->
-							<li class="nav-item" th:classappend="${active == 'users' ? 'active' : ''}"><a class="nav-link" href="#" th:href="@{/users}">USER</a></li>
-						</th:block>
+						<li class="nav-item">
+							<!--
+								HOME PAGE 
+							 --> <a class="nav-link" href="#" th:href="@{/}">HOME</a>
+						</li>
+						<li class="nav-item" sec:authorize="isAuthenticated()">
+							<!--
+								ユーザー管理 : ログイン必須
+							--> <a class="nav-link" href="#" th:href="@{/users}">USER</a>
+						</li>
 					</ul>
-					<th:block sec:authorize="!isAuthenticated()">
-						<form th:action="@{/login}" method="get">
-							<button class="btn btn-outline-info m-1">LOGIN</button>
-						</form>
-						<form th:action="@{/signup}" method="get">
-							<button class="btn btn-outline-info m-1">SIGNUP</button>
-						</form>
-					</th:block>
-					<th:block sec:authorize="isAuthenticated()">
-						<form th:action="@{/llogout}" method="get">
-							<button class="btn btn-outline-info m-1">LOGOUT</button>
-						</form>
-					</th:block>
+					<form th:action="@{/login}" method="get" th:unless="${title} == 'LOGIN'">
+						<button class="btn btn-outline-info m-1">LOGIN</button>
+					</form>
+					<form th:action="@{/signup}" method="get" th:unless="${title} == 'SIGNUP'">
+						<button class="btn btn-outline-info m-1">SIGNUP</button>
+					</form>
+					<form th:action="@{/llogout}" method="get" sec:authorize="isAuthenticated()">
+						<button class="btn btn-outline-info m-1">LOGOUT</button>
+					</form>
 				</div>
 			</div>
 		</nav>
 	</header>
 
+	<div class="container">
 
-	<!-- layout::invalid_feedback(errors) -->
-	<th:block th:fragment="invalid_feedback(errors)">
-		<div class="invalid-feedback" th:each="err,st : ${#lists.sort(errors)}" th:text="${err}" th:if="${st.index == 0}">エラーメッセージが出力されます</div>
-	</th:block>
+		<!-- 警告 -->
+		<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${message}">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			[[${message}]]
+		</div>
 
-	<!-- layout::alert_success(message) -->
-	<div class="alert alert-success alert-dismissible fade show" role="alert" th:fragment="alert_success(message)" th:if="${message}">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		[[${message}]]
+		<div class="row">
+			<div class="col-md-8" layout:fragment="contents" th:remove="tag">コンテンツ</div>
+			<div class="col-md-4" layout:fragment="sidenavi" th:remove="tag">サイドナビ</div>
+		</div>
+
 	</div>
 
-	<!-- layout::alert_info(message) -->
-	<div class="alert alert-info alert-dismissible fade show" role="alert" th:fragment="alert_info(message)" th:if="${message}">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		[[${message}]]
+	<div class="modal" tabindex="-1" id="confirme">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Modal body text goes here.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="w-25 btn btn-sm btn-secondary" data-dismiss="modal">キャンセル</button>
+					<button type="button" class="w-25 btn btn-sm btn-primary">OK</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<!-- layout::alert_warning(message) -->
-	<div class="alert alert-warning alert-dismissible fade show" role="alert" th:fragment="alert_warning(message)" th:if="${message}">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		[[${message}]]
+	<div class="modal" tabindex="-1" id="alert">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Modal body text goes here.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="w-25 btn btn-sm btn-secondary" data-dismiss="modal">クローズ</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<!-- layout::alert_danger(message) -->
-	<div class="alert alert-danger alert-dismissible fade show" role="alert" th:fragment="alert_danger(message)" th:if="${message}">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		[[${message}]]
-	</div>
 </body>
 
 </html>

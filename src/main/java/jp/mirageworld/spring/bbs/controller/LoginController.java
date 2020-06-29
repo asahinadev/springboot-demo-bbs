@@ -15,6 +15,11 @@ import jp.mirageworld.spring.bbs.form.LoginForm;
 @RequestMapping("/login")
 public class LoginController {
 
+	@ModelAttribute("title")
+	public String getTitle() {
+		return "LOGIN";
+	}
+
 	/**
 	 * GET /login.
 	 * 

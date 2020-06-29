@@ -36,6 +36,11 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/users")
 public class UsersController {
 
+	@ModelAttribute("title")
+	public String getTitle() {
+		return "USERS";
+	}
+
 	@Autowired
 	protected UserService service;
 

@@ -1,92 +1,65 @@
 <!DOCTYPE html>
-<html class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html 
+	class="h-100" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout}"
+>
 
 <head>
-<meta charset="UTF-8">
-<title>サインアップ</title>
-<th:block th:include="layout::head" />
 
-<script th:src="@{/assets/js/signup.js}"></script>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css" href="../static/assets/bootstrap/css/bootstrap.min.css" th:remove="tag" />
+<link rel="stylesheet" type="text/css" href="../static/assets/css/common.css" th:remove="tag" />
+
 
 </head>
 
 <body class="h-100">
 
-	<header>
+	<div class="container">
 
-		<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8" layout:fragment="contents">
+				<div class="card mx-auto" id="form-card">
+					<div class="card-body">
+						<form novalidate th:object="${form}" method="POST" th:action="@{/signup}" id="form1" class="was-validated">
 
-				<a class="navbar-brand" href="#">サインアップ</a>
+							<div class="mb-3">
+								<label class="form-label" for="username">アカウント</label>
+								<!--  -->
+								<input class="form-control" th:field="*{username}" required pattern="[\w]{8,32}">
+								<div class="invalid-feedback">[必須] 半角英数 8 文字以上 32 文字以下で入力してください。</div>
+							</div>
 
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsNav">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+							<div class="mb-3">
+								<label class="form-label" for="email">メールアドレス</label>
+								<!--  -->
+								<input class="form-control" th:field="*{email}" type="email" required>
+								<div class="invalid-feedback">[必須] 正しいメールアドレス形式で入力してください。</div>
+							</div>
 
-				<div class="collapse navbar-collapse" id="navbarsNav">
-					<ul class="navbar-nav mr-auto mb-2 mb-sm-0">
-						<li class="nav-item active"><a class="nav-link" href="#" th:href="@{/}">HOME</a></li>
-					</ul>
-					<form th:action="@{/login}" method="get">
-						<button class="btn btn-outline-info m-1">LOGIN</button>
-					</form>
+							<div class="mb-3">
+								<label class="form-label" for="password">パスワード</label>
+								<!--  -->
+								<input class="form-control" th:field="*{password}" required pattern="[\w]{8,32}">
+								<div class="invalid-feedback">[必須] 半角英数 8 文字以上 32 文字以下で入力してください。</div>
+							</div>
+
+							<div class="mb-3">
+								<button type="button" id="btn1" class="btn btn-block btn-primary">サインアップ</button>
+							</div>
+
+						</form>
+					</div>
 				</div>
 			</div>
-		</nav>
-	</header>
+			<div class="col-md-4" layout:fragment="sidenavi" th:remove="tag"></div>
 
-	<div class="container mt-5 ">
-
-		<div th:replace="layout::alert_warning(${message})">エラーメッセージ</div>
-
-		<div class="card mx-auto" id="form-card">
-			<div class="card-body">
-				<form novalidate th:object="${form}" method="POST" th:action="@{/signup}" id="form1" class="was-validated">
-
-					<div class="mb-3">
-						<label class="form-label" for="username">アカウント</label>
-						<!--  -->
-						<input class="form-control" th:field="*{username}" required pattern="[\w]{8,32}">
-						<div class="invalid-feedback">[必須] 半角英数 8 文字以上 32 文字以下で入力してください。</div>
-					</div>
-
-					<div class="mb-3">
-						<label class="form-label" for="email">メールアドレス</label>
-						<!--  -->
-						<input class="form-control" th:field="*{email}" type="email" required>
-						<div class="invalid-feedback">[必須] 正しいメールアドレス形式で入力してください。</div>
-					</div>
-
-					<div class="mb-3">
-						<label class="form-label" for="password">パスワード</label>
-						<!--  -->
-						<input class="form-control" th:field="*{password}" required pattern="[\w]{8,32}">
-						<div class="invalid-feedback">[必須] 半角英数 8 文字以上 32 文字以下で入力してください。</div>
-					</div>
-
-					<div class="mb-3">
-						<button type="button" id="btn1" class="btn btn-block btn-primary">サインアップ</button>
-					</div>
-
-				</form>
-			</div>
 		</div>
-	</div>
 
-	<div class="modal" tabindex="-1" id="modal1">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">お知らせ</h5>
-				</div>
-				<div class="modal-body">
-					<p>Modal body text goes here.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
 	</div>
 
 </body>

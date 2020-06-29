@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html 
+	class="h-100" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout}"
+>
 
 <head>
+
 <meta charset="UTF-8">
 
-<th:block th:include="layout::head" />
+<link rel="stylesheet" type="text/css" href="../static/assets/bootstrap/css/bootstrap.min.css" th:remove="tag" />
+<link rel="stylesheet" type="text/css" href="../static/assets/css/common.css" th:remove="tag" />
+
 
 </head>
 
 <body class="h-100">
 
-	<header th:replace="layout::header('ホーム', 'home')">
-		<!-- 共通レイアウト -->
-	</header>
+	<div class="container">
 
-	<div class="container mt-5 ">
-
-		<div th:replace="layout::alert_warning(${message})">エラーメッセージ</div>
+		<div class="row">
+			<div class="col-md-8" layout:fragment="contents" th:remove="tag">コンテンツ（INDEX）</div>
+			<div class="col-md-4" layout:fragment="sidenavi" th:remove="tag">サイドナビ（INDEX）</div>0
+		</div>
 
 	</div>
-
-</body>
-
 
 </body>
 
