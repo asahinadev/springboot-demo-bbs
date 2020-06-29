@@ -23,7 +23,7 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 import jp.mirageworld.spring.bbs.entity.Roles;
 import jp.mirageworld.spring.bbs.entity.Users;
 import jp.mirageworld.spring.bbs.form.UserForm;
-import jp.mirageworld.spring.bbs.service.UserService;
+import jp.mirageworld.spring.bbs.service.UsersService;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -42,7 +42,7 @@ public class UsersController {
 	}
 
 	@Autowired
-	protected UserService service;
+	UsersService usersService;
 
 	@ModelAttribute("roles")
 	public Roles[] roles() {
@@ -61,7 +61,7 @@ public class UsersController {
 	public String index(Model model,
 			@PageableDefault(page = 0, size = 20) Pageable page) {
 
-		model.addAttribute("users", service.findAll(page));
+		model.addAttribute("users", usersService.findAll(page));
 		return "/users/index";
 
 	}
@@ -89,7 +89,7 @@ public class UsersController {
 	@ResponseBody
 	public Mono<Users> addPost(@Validated @ModelAttribute("form") UserForm form) {
 
-		return service.insert(form);
+		return usersService.insert(form);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class UsersController {
 			@PathVariable String id,
 			@ModelAttribute("form") UserForm form) {
 
-		Users user = service.findById(id).block();
+		Users user = usersService.findById(id).block();
 		BeanUtils.copyProperties(user, form, "password");
 
 		return "/users/form";
@@ -159,8 +159,8 @@ public class UsersController {
 			@PathVariable String id,
 			@Validated @ModelAttribute("form") UserForm form) {
 
-		Users user = service.findById(id).block();
-		return service.update(user, form);
+		Users user = usersService.findById(id).block();
+		return usersService.update(user, form);
 	}
 
 	/**
@@ -172,8 +172,8 @@ public class UsersController {
 	@DeleteMapping("{id}")
 	public Mono<Users> delete(@PathVariable String id) {
 
-		Users user = service.findById(id).block();
-		return service.delete(user);
+		Users user = usersService.findById(id).block();
+		return usersService.delete(user);
 	}
 
 	/**

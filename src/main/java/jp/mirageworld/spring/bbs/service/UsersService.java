@@ -3,23 +3,22 @@ package jp.mirageworld.spring.bbs.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.mirageworld.spring.bbs.entity.Users;
 import jp.mirageworld.spring.bbs.form.UserForm;
 import jp.mirageworld.spring.bbs.repository.UsersRepository;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * ユーザー情報サービス.
  */
+@Slf4j
 @Service
-public class UserService
-		implements UserDetailsService {
+public class UsersService {
 
 	public static final int START_PAGE = 0;
 
@@ -31,16 +30,6 @@ public class UserService
 	@Autowired
 	PasswordEncoder encoder;
 
-	@Override
-	public Users loadUserByUsername(String username)
-			throws UsernameNotFoundException {
-
-		return findByUsername(username)
-				.or(findByEmail(username))
-				.doOnError(e -> new UsernameNotFoundException(""))
-				.block();
-	}
-
 	/**
 	 * 登録.
 	 * 
@@ -48,6 +37,8 @@ public class UserService
 	 * @return 結果
 	 */
 	public Mono<Users> insert(UserForm form) {
+
+		log.debug("form {}", form);
 
 		Users users = new Users();
 		BeanUtils.copyProperties(form, users, "password");
@@ -64,6 +55,8 @@ public class UserService
 	 */
 	public Mono<Users> insert(Users entity) {
 
+		log.debug("entity {}", entity);
+
 		return Mono.create(e -> {
 			e.success(users.insert(entity));
 		});
@@ -77,6 +70,9 @@ public class UserService
 	 * @return 結果
 	 */
 	public Mono<Users> update(Users entity, UserForm form) {
+
+		log.debug("form {}", form);
+		log.debug("entity {}", entity);
 
 		BeanUtils.copyProperties(form, entity, "password");
 		return update(entity);
@@ -103,6 +99,8 @@ public class UserService
 	 */
 	public Mono<Users> delete(String id) {
 
+		log.debug("id {}", id);
+
 		return delete(findById(id));
 	}
 
@@ -113,6 +111,8 @@ public class UserService
 	 * @return
 	 */
 	public Mono<Users> delete(UserForm form) {
+
+		log.debug("form {}", form);
 
 		return delete(findByUsername(form.getUsername()));
 	}

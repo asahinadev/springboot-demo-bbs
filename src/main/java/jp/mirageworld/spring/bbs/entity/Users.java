@@ -25,7 +25,7 @@ public class Users
 		implements UserDetails {
 
 	public Users() {
-		authorities = Arrays.asList(Roles.ROLE_USER);
+		authorities = Arrays.asList(Roles.USER);
 		accountNonExpired = true;
 		accountNonLocked = true;
 		credentialsNonExpired = true;
@@ -55,25 +55,25 @@ public class Users
 	/**
 	 * 権限.
 	 */
-	final List<Roles> authorities;
+	List<Roles> authorities;
 
 	/**
 	 * アカウント有効期間内.
 	 */
-	final boolean accountNonExpired;
+	boolean accountNonExpired;
 
 	/**
 	 * アカウントアンロック状態.
 	 */
-	final boolean accountNonLocked;
+	boolean accountNonLocked;
 
 	/**
 	 * パスワード有効期間内.
 	 */
-	final boolean credentialsNonExpired;
+	boolean credentialsNonExpired;
 
 	/**
 	 * アカウント有効状態.
 	 */
-	final boolean enabled;
+	boolean enabled;
 }

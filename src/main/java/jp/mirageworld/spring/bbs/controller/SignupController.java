@@ -18,7 +18,7 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 
 import jp.mirageworld.spring.bbs.entity.Users;
 import jp.mirageworld.spring.bbs.form.UserForm;
-import jp.mirageworld.spring.bbs.service.UserService;
+import jp.mirageworld.spring.bbs.service.UsersService;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -37,7 +37,7 @@ public class SignupController {
 	}
 
 	@Autowired
-	UserService service;
+	UsersService usersService;
 
 	/**
 	 * GET /signup.
@@ -65,7 +65,7 @@ public class SignupController {
 	public Mono<Users> post(@Validated @RequestBody UserForm form) {
 
 		log.debug("登録対象 : {}", form);
-		return service.insert(form);
+		return usersService.insert(form);
 	}
 
 	/**
