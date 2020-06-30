@@ -9,24 +9,43 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jp.mirageworld.spring.bbs.converter.BlankNullConverter;
 import jp.mirageworld.spring.bbs.validator.Password;
 import jp.mirageworld.spring.bbs.validator.Username;
+import jp.mirageworld.spring.bbs.validator.group.Create;
+import jp.mirageworld.spring.bbs.validator.group.Update;
 import lombok.Data;
 
 @Data
 @JsonInclude(content = JsonInclude.Include.NON_EMPTY)
 public class UserForm {
 
-	@NotEmpty
-	@Username
+	@NotEmpty(groups = {
+			Create.class,
+			Update.class
+	})
+	@Username(groups = {
+			Create.class,
+			Update.class
+	})
 	@JsonDeserialize(converter = BlankNullConverter.class)
 	String username;
 
-	@NotEmpty
-	@Email
+	@NotEmpty(groups = {
+			Create.class,
+			Update.class
+	})
+	@Email(groups = {
+			Create.class,
+			Update.class
+	})
 	@JsonDeserialize(converter = BlankNullConverter.class)
 	String email;
 
-	@NotEmpty
-	@Password
+	@NotEmpty(groups = {
+			Create.class
+	})
+	@Password(groups = {
+			Create.class,
+			Update.class
+	})
 	@JsonDeserialize(converter = BlankNullConverter.class)
 	String password;
 

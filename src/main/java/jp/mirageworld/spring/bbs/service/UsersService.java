@@ -2,9 +2,9 @@ package jp.mirageworld.spring.bbs.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import jp.mirageworld.spring.bbs.entity.Users;
 import jp.mirageworld.spring.bbs.form.UserForm;
@@ -40,11 +40,11 @@ public class UsersService {
 
 		log.debug("form {}", form);
 
-		Users users = new Users();
-		BeanUtils.copyProperties(form, users, "password");
-		users.setPassword(encoder.encode(form.getPassword()));
+		Users entity = new Users();
+		BeanUtils.copyProperties(form, entity, "password");
+		entity.setPassword(encoder.encode(form.getPassword()));
 
-		return insert(users);
+		return insert(entity);
 	}
 
 	/**
@@ -75,6 +75,9 @@ public class UsersService {
 		log.debug("entity {}", entity);
 
 		BeanUtils.copyProperties(form, entity, "password");
+		if (!StringUtils.isEmpty(form.getPassword())) {
+			entity.setPassword(encoder.encode(form.getPassword()));
+		}
 		return update(entity);
 	}
 
@@ -181,7 +184,7 @@ public class UsersService {
 	 * @param pageable {@link Pageable}
 	 * @return 結果
 	 */
-	public Flux<Users> findAll(Pageable pageable) {
-		return Flux.fromIterable(users.findAll(pageable));
+	public Flux<Users> findAll() {
+		return Flux.fromIterable(users.findAll());
 	}
 }

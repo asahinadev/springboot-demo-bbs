@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html 
+	class="h-100" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout}"
+>
+
+<head>
+
+<meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css" href="../static/assets/bootstrap/css/bootstrap.min.css" th:remove="tag" />
+<link rel="stylesheet" type="text/css" href="../static/assets/css/common.css" th:remove="tag" />
+
+</head>
+
+<body class="h-100">
+
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-md-10" layout:fragment="contents">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>username</th>
+							<th>email</th>
+							<th>action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user : ${users}" th:object="${user}">
+							<td th:text="*{id}">1</td>
+							<td th:text="*{username}">USERNAME</td>
+							<td th:text="*{email}">USER@EXAMPLE.COM</td>
+							<td>
+								<section class="row">
+									<form action="#" class="col" th:action="@{/users/{id}(id=*{id})}">
+										<button class="btn btn-block btn-primary">変更</button>
+									</form>
+									<form action="#" class="col" data-request-type="ajax"  th:action="@{/users/{id}(id=*{id})}">
+										<button class="btn btn-block btn-danger">削除</button>
+									</form>
+								</section>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col" layout:fragment="sidenavi" >
+				<nav class="list-groupe">
+					<!--  -->
+					<a href="#" class="list-group-item disabled" th:acion="@{/users}">一覧</a>
+					<!--  -->
+					<a href="#" class="list-group-item" th:href="@{/users/add}">新規登録</a>
+				</nav>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+</html>
