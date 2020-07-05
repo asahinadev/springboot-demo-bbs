@@ -2,6 +2,7 @@ package jp.mirageworld.spring.bbs.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import jp.mirageworld.spring.bbs.entity.Roles;
 import jp.mirageworld.spring.bbs.entity.Users;
+import jp.mirageworld.spring.bbs.exception.UniqueElementsException;
 import jp.mirageworld.spring.bbs.form.UserForm;
 import jp.mirageworld.spring.bbs.service.UsersService;
 import jp.mirageworld.spring.bbs.validator.group.Create;
@@ -242,4 +244,41 @@ public class UsersController {
 
 		return Flux.fromIterable(exception.getAllErrors());
 	}
+
+	/**
+	 * POST /users/** (status=400).
+	 * 
+	 * @param exception {@link WebExchangeBindException}
+	 * 
+	 * @return list as {@link ObjectError}
+	 */
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(UniqueElementsException.class)
+	public Flux<ObjectError> exceptionHandler(UniqueElementsException exception) {
+
+		log.debug("エラー {}", exception.getMessage());
+
+		return Mono.<ObjectError>create((e) -> {
+			e.success(new ObjectError(exception.getField(), exception.getMessage()));
+		}).flux();
+	}
+
+	/**
+	 * POST /users/** (status=400).
+	 * 
+	 * @param exception {@link WebExchangeBindException}
+	 * 
+	 * @return list as {@link ObjectError}
+	 */
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(IncorrectResultSizeDataAccessException.class)
+	public Flux<ObjectError> exceptionHandler(IncorrectResultSizeDataAccessException exception) {
+
+		log.debug("エラー {}", exception.getMessage());
+
+		return Mono.<ObjectError>create((e) -> {
+			e.success(new ObjectError("form", exception.getMessage()));
+		}).flux();
+	}
+
 }

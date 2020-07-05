@@ -11,32 +11,21 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class LoginService implements ReactiveUserDetailsService {
+public class LoginService
+		implements ReactiveUserDetailsService {
 
 	@Autowired
 	UsersRepository usersRepository;
 
 	@Override
 	public Mono<UserDetails> findByUsername(String username) {
-		return username(username).or(email(username));
-	}
 
-	Mono<UserDetails> username(String username) {
-		log.debug("username = {}", username);
+		log.debug("username => {}", username);
 
-		return Mono.create((e) -> {
+		return Mono.<UserDetails>create((e) -> {
 			e.success(usersRepository.findByUsername(username));
-		});
-
+		}).or(Mono.create((e) -> {
+			e.success(usersRepository.findByEmail(username));
+		}));
 	}
-
-	Mono<UserDetails> email(String email) {
-		log.debug("email = {}", email);
-
-		return Mono.create((e) -> {
-			e.success(usersRepository.findByEmail(email));
-		});
-
-	}
-
 }

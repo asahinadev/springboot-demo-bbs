@@ -32,48 +32,13 @@ public class Users
 		enabled = true;
 	}
 
-	/**
-	 * ID.
-	 */
 	String id;
-
-	/**
-	 * アカウント.
-	 */
 	String username;
-
-	/**
-	 * メールアドレス（アカウント代替）.
-	 */
 	String email;
-
-	/**
-	 * パスワード.
-	 */
 	String password;
-
-	/**
-	 * 権限.
-	 */
 	List<Roles> authorities;
-
-	/**
-	 * アカウント有効期間内.
-	 */
 	boolean accountNonExpired;
-
-	/**
-	 * アカウントアンロック状態.
-	 */
 	boolean accountNonLocked;
-
-	/**
-	 * パスワード有効期間内.
-	 */
 	boolean credentialsNonExpired;
-
-	/**
-	 * アカウント有効状態.
-	 */
 	boolean enabled;
 }

@@ -13,10 +13,8 @@ import lombok.Getter;
  */
 public enum Roles implements GrantedAuthority {
 
-	ROLE_USER,
-	ROLE_ADMIN(ROLE_USER),
-	USER(ROLE_USER),
-	ADMIN(ROLE_ADMIN);
+	USER(),
+	ADMIN(USER);
 
 	@Getter
 	List<Roles> authorities;

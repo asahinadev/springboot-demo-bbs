@@ -14,6 +14,9 @@
 <link rel="stylesheet" type="text/css" href="../static/assets/bootstrap/css/bootstrap.min.css" th:remove="tag" />
 <link rel="stylesheet" type="text/css" href="../static/assets/css/common.css" th:remove="tag" />
 
+<meta name="redirect" th:content="${redirect}"  id="redirect_url">
+<meta name="confime"  th:content="${confime}"  id="confime_msg">
+
 <script th:src="@{/assets/js/signup.js}"></script>
 
 </head>
@@ -26,7 +29,7 @@
 			<div class="col-md-12" layout:fragment="contents">
 				<div class="card mx-auto" id="form-card">
 					<div class="card-body">
-						<form novalidate th:object="${form}" method="POST" th:action="@{/signup}" id="form1" class="was-validated">
+						<form novalidate th:object="${form}" method="POST" th:method="${method}" th:action="${action}" id="form1" class="was-validated">
 
 							<div class="mb-3">
 								<label class="form-label" for="username">アカウント</label>
@@ -50,7 +53,7 @@
 							</div>
 
 							<div class="mb-3">
-								<button type="button" id="btn1" class="btn btn-block btn-primary">サインアップ</button>
+								<button type="button" id="btn1" class="btn btn-block btn-primary" th:text="${button}">登録</button>
 							</div>
 
 						</form>

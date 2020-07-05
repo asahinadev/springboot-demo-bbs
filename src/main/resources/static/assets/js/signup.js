@@ -1,46 +1,75 @@
 $(function() {
 
+	// FORM
+	var $form = $("#form1");
+	
+	// 選択ダイアログ
 	var confirmeEl = document.getElementById('confirme');
-	var confirme = new bootstrap.Modal(confirmeEl, {
+	var $confirme  = $(confirmeEl);
+	var bConfirme   = new bootstrap.Modal(confirmeEl, {
 		keyboard : false
 	});
+	
 
+	// アラートダイアログ
 	var alertEl = document.getElementById('alert');
-	var alert = new bootstrap.Modal(alertEl, {
+	var $alert  = $(alertEl);
+	var bAlert = new bootstrap.Modal(alertEl, {
 		keyboard : false
 	});
 
-	$("#btn1").on("click", function() {
-		form = $("#form1");
-
+	// 送信処理
+	$confirme.find(".modal-body > p").text($("#confime_msg").attr("content"));
+	$confirme.find(".modal-footer .btn-primary").on("click", function(){
+		
 		$.ajax({
-			type : "POST",
-			url : form.attr("action"),
-			data : parseJson(form),
-			dataType : "json",
+			
+			type        : $form.attr("method"),
+			url         : $form.attr("action"),
+			data        : parseJson($form),
+			dataType    : "json",
 			contentType : 'application/json; charset=utf-8',
+			
 		}).then(function(data) {
 
-			// バリデーションクラスを除去
-			$("#form1 .is-invalid").removeClass("is-invalid");
-			$("#form1 .is-valid").removeClass("is-valid");
-			$("#form1 .invalid-feedback").remove();
-			$("#form1 .form-control:not(.is-invalid)").addClass("is-valid");
-
 			// ダイアログ
-			$("#alert .modal-body > p").text("正常に終了しました。");
+			$alert.find(".modal-body > p").text("正常に終了しました。");
 			alertEl.addEventListener('hidden.bs.modal', function(e) {
-				location.href = "/login";
+				location.href = $("#redirect_url").attr("content");
 			})
-			alert.show()
+			bAlert.show()
 
 		}, function(data, type, status) {
-
-			// ダイアログ
-			$("#alert .modal-body > p").text("エラーがあります。確認してください。");
-			alert.show()
-
+			
+			// ダイアログ表示
+			$alert.find(data.responseJSON[0].defaultMessage);
+			bAlert.show()
 		});
+		
+		// ダイアログを閉じる
+		bConfirme.hide();
+	})
+	
+	// エラーメッセージ
+	function invalid() {
+		// ダイアログ
+		$alert.find(".modal-body > p").text("エラーがあります。確認してください。");
+		bAlert.show()
+
+	}
+
+	// 送信ボタン
+	$("#btn1").on("click", function() {
+		
+		if ($form.find(".form-control:invalid").length != 0) {
+			
+			// ダイアログ表示
+			invalid();
+			
+			return false;
+		} 
+		bConfirme.show();
+
 		return false;
 	})
 })

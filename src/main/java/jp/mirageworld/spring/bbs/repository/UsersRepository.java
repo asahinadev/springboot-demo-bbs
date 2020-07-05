@@ -22,10 +22,30 @@ public interface UsersRepository
 	/**
 	 * アカウント検索.
 	 * 
+	 * @param username 対象アカウント
+	 * @param id       含めない ID
+	 * 
+	 * @return 対象
+	 */
+	public Users findByUsernameAndIdNot(String username, String id);
+
+	/**
+	 * アカウント検索.
+	 * 
 	 * @param email 対象メールアドレス.
 	 * 
 	 * @return 対象
 	 */
 	public Users findByEmail(String email);
+
+	/**
+	 * アカウント検索.
+	 * 
+	 * @param email 対象メールアドレス.
+	 * @param id    含めない ID
+	 * 
+	 * @return 対象
+	 */
+	public Users findByEmailAndIdNot(String email, String id);
 
 }

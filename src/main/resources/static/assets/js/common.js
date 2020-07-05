@@ -9,7 +9,3 @@ function parseJson(form) {
 	var json = JSON.stringify(returnJson);
 	return json;
 }
-
-$(function() {
-	// $(".modal-dialog").hide();
-})
